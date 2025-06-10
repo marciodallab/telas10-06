@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+import 'inserir_serie_screen.dart';
+
+class AdicionarTreinoScreen extends StatelessWidget {
+  final int usuarioId;
+
+  AdicionarTreinoScreen({required this.usuarioId});
+
+  @override
+  Widget build(BuildContext context) {
+    final exercicios = [
+      {'nome': 'Supino', 'icone': Icons.fitness_center},
+      {'nome': 'Remada', 'icone': Icons.directions_boat},
+      {'nome': 'Agachamento', 'icone': Icons.accessibility_new},
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Adicionar Treino'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.separated(
+          itemCount: exercicios.length,
+          separatorBuilder: (_, __) => SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            final exercicio = exercicios[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                leading: Icon(
+                  exercicio['icone'] as IconData,
+                  size: 30,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  exercicio['nome'] as String,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InserirSerieScreen(
+                        usuarioId: usuarioId,
+                        nomeExercicio: exercicio['nome'] as String,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
