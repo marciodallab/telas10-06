@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'adicionar_treino_screen.dart';
+import 'acompanhar_progresso_screen.dart';
+
+class HomeScreen extends StatelessWidget {
+  final int usuarioId;
+
+  HomeScreen({required this.usuarioId});
+
+  @override
+  Widget build(BuildContext context) {
+    final opcoes = [
+      {
+        'titulo': 'Adicionar Treino',
+        'icone': Icons.add_box,
+        'destino': (BuildContext context) => AdicionarTreinoScreen(usuarioId: usuarioId),
+      },
+      {
+        'titulo': 'Acompanhar Progresso',
+        'icone': Icons.bar_chart,
+        'destino': (BuildContext context) => AcompanharProgressoScreen(usuarioId: usuarioId),
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Página Inicial'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.separated(
+          itemCount: opcoes.length,
+          separatorBuilder: (_, __) => SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            final opcao = opcoes[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                leading: Icon(
+                  opcao['icone'] as IconData,
+                  size: 30,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  opcao['titulo'] as String,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => opcao['destino']!(context)),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
